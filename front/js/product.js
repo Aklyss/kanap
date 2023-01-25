@@ -1,23 +1,24 @@
-const item__img = document.querySelector('.item__img') 
+const item__img = document.querySelector('.item__img');
 
-const title = document.getElementById('title')
+const title = document.getElementById('title');
 
-const price = document.getElementById('price')
+const price = document.getElementById('price');
 
-const description = document.getElementById('description')
+const description = document.getElementById('description');
 
-const colors = document.getElementById('colors')
+const colors = document.getElementById('colors');
 
+let url_id = new URLSearchParams(window.location.search);
 
-const url_id = window.location.search;
+const Id = url_id.get('id');
 
+const addToCart = document.getElementById('addToCart');
 
-const Id = url_id.slice(4);
+const url_url = (`http://localhost:3000/api/products/${Id}`);
 
+const selection = document.querySelector('select');
 
-const url_url = (`http://localhost:3000/api/products/${Id}`)
-
-
+function init(){
     fetch(url_url)
     .then(reponse => reponse.json())
     .then(data => {
@@ -27,8 +28,44 @@ const url_url = (`http://localhost:3000/api/products/${Id}`)
         item__img.innerHTML += `<img src="${data.imageUrl}" alt="${data.altTxt}"></img>`
         data.colors.forEach((elementColor) => {
             colors.innerHTML += `<option value="${elementColor}">${elementColor}</option>`
-        });
+            
+        }); 
     }
     )
+}
+
+    addToCart.addEventListener("click", function() {
+    const quantité = document.querySelector("#quantity").value;
+    const selectionV = selection.selectedIndex;
+    const x = Number(quantité);
+        if( (selectionV != 0) && ( x > 0 ) && ( x < 101 )){
+            let panierJson = {
+                kanapId : Id,
+                laCouleur : selection.value,
+                leNombre : x,
+            }
+            let panier = localStorage.getItem("panier")
+            let tableau = panier? JSON.parse(panier):[];
+            let find = undefined;
+            for(let Item of tableau) {
+                if(Item.kanapId == panierJson.kanapId && Item.laCouleur == panierJson.laCouleur){
+                    find = Item;
+                    break;
+                }
 
 
+            }
+            if(find){
+                find.leNombre = Number(find.leNombre) + x;
+                
+            }else{
+                tableau.push(panierJson);
+            }
+            let panierLinea = JSON.stringify(tableau);
+            localStorage.setItem("panier",panierLinea);
+        }else{
+            alert("Veuillez choisir une couleur et un nombre compris entre 1 et 100.");
+        }
+    }); 
+
+ init()
