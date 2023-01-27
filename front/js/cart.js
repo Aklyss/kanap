@@ -1,7 +1,7 @@
 const cart__items = document.getElementById('cart__items');
     const tableau = localStorage.getItem("panier");
     const tableauJson = tableau? JSON.parse(tableau):[];
-
+    
 
 tableauJson.forEach(element => {
 console.log(element)
@@ -43,7 +43,7 @@ fetch(url_url)
 
         // Définir la balise div 
         let div2 = document.createElement("div");
-        div2.classList.add("cart__items__content");
+        div2.classList.add("cart__item__content");
         article.appendChild(div2);
 
         // Définir la balise div
@@ -98,44 +98,60 @@ fetch(url_url)
         div2_2_2.appendChild(supprimer);
 
 
-      /*cart__items.innerHTML+=`<article class="cart__item" data-id="${element.kanapId}" data-color="${element.laCouleur}">
-    <div class="cart__item__img">
-      <img src="${image}" alt="${altTxt}">
-    </div>
-    <div class="cart__item__content">
-      <div class="cart__item__content__description">
-        <h2>${title}</h2>
-        <p>${element.laCouleur}</p>
-        <p>${price} €</p>
-      </div>
-      <div class="cart__item__content__settings">
-        <div class="cart__item__content__settings__quantity">
-          <p>Qté :</p>
-          <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${element.leNombre}">
-        </div>
-        <div class="cart__item__content__settings__delete">
-          <p class="deleteItem">Supprimer</p>
-        </div>
-      </div>
-    </div>
-  </article> 
-    `*/
 
-      let changement = document.querySelector('input');
-      changement.addEventListener('change', function(e){
-        console.log(e.target.value);
+      // supprimer un element du panier
+      console.log(supprimer);
+      supprimer.addEventListener('click', function(){
+            // recuperer le local storage et le mettre en array
+            let panier = localStorage.getItem("panier")
+            let tableau = panier? JSON.parse(panier):[];
+            console.log(tableau);
+            // prendre l'id du canapé choisi
+            const supId = element.kanapId
+            console.log(supId);
+            // recuperer l'objet qui correspond a l'id choisi 
+            const supIndex = tableau.find( iddd => iddd.kanapId === supId);
+            console.log(supIndex);
+            // prend l'index de l'objet choisi
+            let grosIndex = tableau.indexOf(supIndex);
+            console.log(grosIndex);
+            // supprimer l'objet correspondant a l'index 
+            tableau.splice(grosIndex,1);
+            console.log(tableau)
+            // remettre le panier modifier dans le localStorage
+            let panierLinea = JSON.stringify(tableau);
+            localStorage.setItem("panier",panierLinea);
+            // raffraichir la page pour afficher les modifications
+            location.reload();
+      })
 
-      
-
-      });
-
-
+      // changer la quantité d'un element du panier
+      input.addEventListener('change', function(){
+        let newValue = input.value;
+        console.log(newValue)
+        // recuperer le local storage et le mettre en array
+        let panier = localStorage.getItem("panier")
+        let tableau = panier? JSON.parse(panier):[];
+        console.log(tableau);
+        // prendre l'id du canapé choisi
+        const supId = element.kanapId
+        console.log(supId);
+        // recuperer l'objet qui correspond a l'id choisi 
+        const supIndex = tableau.find( iddd => iddd.kanapId === supId);
+        console.log(supIndex);
+        // prend l'index de l'objet choisi
+        let grosIndex = tableau.indexOf(supIndex);
+        console.log(grosIndex);
+        // mettre à jour la nouvelle valeur 
+        supIndex.leNombre = newValue;
+        // remettre le panier modifier dans le localStorage
+            let panierLinea = JSON.stringify(tableau);
+            localStorage.setItem("panier",panierLinea);
+            // raffraichir la page pour afficher les modifications (total)
+            location.reload();
+      })
     let totalPrice = document.getElementById('totalPrice');
     totalPrice.innerHTML = Number(totalPrice.textContent)+(price*element.leNombre);
-    
-    
-    
-
     });
 });
 
