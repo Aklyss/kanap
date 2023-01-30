@@ -128,7 +128,7 @@ fetch(url_url)
       // changer la quantité d'un element du panier
       input.addEventListener('change', function(){
         let newValue = input.value;
-        console.log(newValue)
+        console.log(newValue);
         // recuperer le local storage et le mettre en array
         let panier = localStorage.getItem("panier")
         let tableau = panier? JSON.parse(panier):[];
@@ -156,5 +156,39 @@ fetch(url_url)
 });
 
 
+const submit = document.getElementById('order');
 
-  
+                       // pour la validation du formulaire
+submit.addEventListener('click', function(){
+// regex pour les nom prénom 
+const nomPrenom = new RegExp("^[a-zÀ-ÿ ,.'-]{3,30}$", "i");
+//  regex pour les adresses mails
+const eMail = new RegExp("^([\wÀ-ÿ_.-]{3,30})(@[\w]{2,10})\.([a-zA-Z]{2,4})", "g");
+// regex pour les villes
+const ville = new RegExp("^[a-zÀ-ÿ .'-]{3,30}$", "i");
+// regex pour les adresses
+const adresse = new RegExp("^[\w .'-]{3,30}$", "i");
+
+var compteur = 0;
+
+
+let vPrenom = document.getElementById("firstName").value;
+console.log(nomPrenom.test(vPrenom));
+
+let vNom = document.getElementById("lastName").value;
+console.log(nomPrenom.test(vNom));
+
+let vAdresse = document.getElementById("address").value;
+console.log(adresse.test(vAdresse));
+
+let vVille = document.getElementById("city").value;
+console.log(ville.test(vVille));
+
+let vMail = document.getElementById("email").value;
+console.log(eMail.test(vMail));
+
+
+
+
+
+});
