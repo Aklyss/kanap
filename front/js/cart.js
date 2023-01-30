@@ -163,31 +163,67 @@ submit.addEventListener('click', function(){
 // regex pour les nom prénom 
 const nomPrenom = new RegExp("^[a-zÀ-ÿ ,.'-]{3,30}$", "i");
 //  regex pour les adresses mails
-const eMail = new RegExp("^([\wÀ-ÿ_.-]{3,30})(@[\w]{2,10})\.([a-zA-Z]{2,4})", "g");
+const eMail = new RegExp("^([a-zÀ-ÿ0-9_.-]{3,30})(@[a-zÀ-ÿ]{2,10})\.([a-zA-Z]{2,4})", "i");
 // regex pour les villes
 const ville = new RegExp("^[a-zÀ-ÿ .'-]{3,30}$", "i");
 // regex pour les adresses
-const adresse = new RegExp("^[\w .'-]{3,30}$", "i");
+const adresse = new RegExp("^[a-zÀ-ÿ0-9 .'-]{3,30}$", "i");
 
-var compteur = 0;
-
+let compteur = 0;
+const ePrenom = document.getElementById('firstNameErrorMsg');
+const eName = document.getElementById('lastNameErrorMsg');
+const eAdresse = document.getElementById('addressErrorMsg');
+const eVille = document.getElementById('cityErrorMsg');
+const eEmail = document.getElementById('emailErrorMsg');
 
 let vPrenom = document.getElementById("firstName").value;
-console.log(nomPrenom.test(vPrenom));
+if (nomPrenom.test(vPrenom) === true) {
+  compteur += 1;
+  ePrenom.textContent = '';
+} else {
+  ePrenom.textContent = 'Le prénom saisit est invalide.';
+}
+console.log(compteur);
 
 let vNom = document.getElementById("lastName").value;
-console.log(nomPrenom.test(vNom));
+if (nomPrenom.test(vNom) === true) {
+  compteur += 1;
+  eName.textContent = '';
+} else {
+  eName.textContent = 'Le nom saisit est invalide.';
+}
+console.log(compteur);
 
 let vAdresse = document.getElementById("address").value;
-console.log(adresse.test(vAdresse));
+if (adresse.test(vAdresse) === true) {
+  compteur += 1;
+  eAdresse.textContent = '';
+} else {
+  eAdresse.textContent = `L'adresse saisit est invalide.`;
+}
+console.log(compteur);
 
 let vVille = document.getElementById("city").value;
-console.log(ville.test(vVille));
+if (ville.test(vVille) === true) {
+  compteur += 1;
+  eVille.textContent = '';
+} else {
+  eVille.textContent = 'La ville saisit est invalide.';
+}
+console.log(compteur);
 
 let vMail = document.getElementById("email").value;
-console.log(eMail.test(vMail));
+if (eMail.test(vMail) === true) {
+  compteur += 1;
+  eEmail.textContent = '';
+} else {
+  eEmail.textContent = 'Le mail saisit est invalide.';
+}
+console.log(compteur);
 
-
+if (compteur === 5){
+    alert('caca');
+}
 
 
 
