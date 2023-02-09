@@ -18,6 +18,8 @@ const url_url = (`http://localhost:3000/api/products/${Id}`);
 
 const selection = document.querySelector('select');
 
+// Cette fonction permet de recuperer les données du canapé choisir précédement, et de l'afficher abev les bonnes valeurs
+
 function init(){
     fetch(url_url)
     .then(reponse => reponse.json())
@@ -34,6 +36,9 @@ function init(){
     )
 }
 
+// la fonction click permet d'envoyer les information, donc le canapé, la couleur et la quantité au localstorage
+
+function click(){
     addToCart.addEventListener("click", function() {
     const quantité = document.querySelector("#quantity").value;
     const selectionV = selection.selectedIndex;
@@ -63,9 +68,11 @@ function init(){
             }
             let panierLinea = JSON.stringify(tableau);
             localStorage.setItem("panier",panierLinea);
+            alert("L'élément a bien été ajouté au panier");
         }else{
             alert("Veuillez choisir une couleur et un nombre compris entre 1 et 100.");
         }
     }); 
-
+}
  init()
+ click()
